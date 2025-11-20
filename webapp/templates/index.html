@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NYC Collision Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #0e0e0e;
+            font-family: 'Inter', sans-serif;
+            color: white;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: #141414;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #00d8ff;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #1f1f1f;
+        }
+
+        .container {
+            padding: 40px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        /* FILTER BAR */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        select, input[type="text"] {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            padding: 12px;
+            color: white;
+            border-radius: 6px;
+            width: 220px;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+        }
+
+        option {
+            background-color: black;
+        }
+
+        /* Button */
+        .generate-btn {
+            background-color: #00d8ff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            color: black;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .generate-btn:hover {
+            background-color: #00b5d9;
+        }
+
+        /* CHART BOX */
+        .chart-box {
+            background-color: #151515;
+            padding: 25px;
+            margin-top: 35px;
+            border-radius: 10px;
+            border: 1px solid #242424;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #00d8ff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">NYC Collision Dashboard</div>
+
+<div class="container">
+
+    <!-- FILTER FORM -->
+    <form method="POST">
+        <div class="filters">
+
+            <select name="borough">
+                <option value="All">Borough (All)</option>
+                {% for b in boroughs %}
+                    <option value="{{b}}">{{b}}</option>
+                {% endfor %}
+            </select>
+
+            <select name="year">
+                <option value="All">Year (All)</option>
+                {% for y in years %}
+                    <option value="{{y}}">{{y}}</option>
+                {% endfor %}
+            </select>
+
+            <select name="vehicle">
+                <option value="All">Vehicle Type (All)</option>
+                {% for v in vehicles %}
+                    <option value="{{v}}">{{v}}</option>
+                {% endfor %}
+            </select>
+
+            <select name="factor">
+                <option value="All">Contributing Factor (All)</option>
+                {% for f in factors %}
+                    <option value="{{f}}">{{f}}</option>
+                {% endfor %}
+            </select>
+
+            <select name="injury">
+                {% for i in injuries %}
+                    <option value="{{i}}">{{i}}</option>
+                {% endfor %}
+            </select>
+
+            <input type="text" name="search" placeholder="e.g. Brooklyn 2022 pedestrian crashes">
+
+            <button type="submit" class="generate-btn">Generate Report</button>
+        </div>
+    </form>
+
+    <!-- 8 CHART BOXES -->
+
+    <div class="chart-box">
+        <div class="chart-title">Crashes per Borough</div>
+        {{ fig1|safe }}
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Crash Monthly Trend</div>
+        {{ fig2|safe }}
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Top Contributing Factors</div>
+        {{ fig3|safe }}
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Heatmap: Crashes by Day & Hour</div>
+        {{ fig4|safe }}
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Crash Density Map</div>
+        {{ fig5|safe }}
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Injury Breakdown</div>
+        {{ fig6|safe }}
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Vehicle Type Distribution</div>
+        {{ fig7|safe }}
+    </div>
+
+    <div class="chart-box">
+        <div class="chart-title">Crash Severity (Injured vs Killed)</div>
+        {{ fig8|safe }}
+    </div>
+
+</div>
+
+</body>
+</html>
